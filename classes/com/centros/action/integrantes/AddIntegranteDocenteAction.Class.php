@@ -35,6 +35,7 @@ class AddIntegranteDocenteAction extends CdtAction{
 			$result['mail']=$oDocente->getDs_mail();
 			$result['telefono']=$oDocente->getNu_telefono();
 			$result['categoria_oid']=$oDocente->getCategoria()->getOid();
+            $result['categoriasicadi_oid']=$oDocente->getCategoriasicadi()->getOid();
 			$result['carrerainv_oid']=$oDocente->getCarreraInv()->getOid();
 			$result['organismo_oid']=$oDocente->getOrganismo()->getOid();
 			$result['cargo_oid']=$oDocente->getCargo()->getOid();

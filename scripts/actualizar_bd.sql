@@ -656,25 +656,25 @@ INSERT INTO `cyt_tipo_unidad` (`nombre`) VALUES ('Laboratorio');
 
 
 
-INSERT INTO `cyt_tipo_integrante` (`oid`, `nombre`, `gobierno`, `orden`, `tipoUnidad_oid`) VALUES
-(1, 'Director', 1, 1, 5),
-(2, 'Consejo directivo', 1, 2, 5),
-(3, 'Miembro', 0, 3, 5);
+INSERT INTO `cyt_tipo_integrante` ( `nombre`, `gobierno`, `orden`, `tipoUnidad_oid`) VALUES
+('Director', 1, 1, 5),
+('Consejo directivo', 1, 2, 5),
+('Miembro', 0, 3, 5);
 
 
 ALTER TABLE `cyt_tipo_unidad` ADD `minMiembros` INT NOT NULL ,
 ADD `catDirector` VARCHAR( 20 ) NOT NULL ,
 ADD `minCD` VARCHAR( 20 ) NOT NULL;
 
-UPDATE `test`.`cyt_tipo_unidad` SET `minMiembros` = '6',
+UPDATE `cyt_tipo_unidad` SET `minMiembros` = '6',
 `catDirector` = '6,7',
 `minCD` = '2_2_6,7,8' WHERE `cyt_tipo_unidad`.`oid` =5;
 
-UPDATE `test`.`cyt_tipo_unidad` SET `minMiembros` = '12',
+UPDATE `cyt_tipo_unidad` SET `minMiembros` = '12',
 `catDirector` = '6,7_1',
 `minCD` = '6_4_6,7,8' WHERE `cyt_tipo_unidad`.`oid` =1;
 
-UPDATE `test`.`cyt_tipo_unidad` SET `minMiembros` = '18',
+UPDATE `cyt_tipo_unidad` SET `minMiembros` = '18',
 `catDirector` = '6,7_1',
 `minCD` = '6_4_6,7,8' WHERE `cyt_tipo_unidad`.`oid` =3;
 
@@ -683,3 +683,85 @@ UPDATE `test`.`cyt_tipo_unidad` SET `minMiembros` = '18',
  ALTER TABLE `cyt_unidad` ADD `dt_disposicion` date NULL; 
  
  ALTER TABLE `cyt_unidad` ADD `nu_disposicion` VARCHAR( 255 ) NULL;
+
+ #################################################### 13/05/2022 ##########################################################################
+
+ ALTER TABLE `cyt_unidad_integrante`
+
+	ADD COLUMN `estado_oid` INT(11) NULL;
+
+ALTER TABLE `cyt_unidad_integrante` DROP INDEX `estado_oid`, ADD INDEX `estado_oid` (`estado_oid`) USING BTREE;
+
+
+UPDATE cyt_unidad_integrante SET cyt_unidad_integrante.estado_oid = 3;
+
+CREATE TABLE `cyt_unidad_integrante_estado` (
+  `oid` bigint(20) NOT NULL,
+  `integrante_oid` bigint(20) DEFAULT NULL,
+  `unidad_oid` bigint(20) DEFAULT NULL,
+  `tipoIntegrante_oid` bigint(20) DEFAULT NULL,
+  `categoria_oid` int(11) DEFAULT NULL,
+  `carreraInv_oid` int(11) DEFAULT NULL,
+  `organismo_oid` int(11) DEFAULT NULL,
+  `beca` varchar(255) NOT NULL,
+  `cargo_oid` int(11) DEFAULT NULL,
+  `dedDoc_oid` int(11) DEFAULT NULL,
+  `facultad_oid` int(11) DEFAULT NULL,
+  `lugarTrabajo_oid` int(11) DEFAULT NULL,
+  `horas` int(11) DEFAULT NULL,
+  `observaciones` text,
+  `motivo` text,
+  `fechaDesde` datetime DEFAULT NULL,
+  `fechaHasta` datetime DEFAULT NULL,
+  `user_oid` int(11) NOT NULL,
+  `fechaUltModificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `activo` int(2) NOT NULL DEFAULT '1',
+  `estudiante` int(2) DEFAULT '0',
+  `estado_oid` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+--
+-- Indices de la tabla `cyt_unidad_integrante`
+--
+ALTER TABLE `cyt_unidad_integrante_estado`
+  ADD PRIMARY KEY (`oid`),
+
+  ADD KEY `integrante_oid` (`integrante_oid`),
+  ADD KEY `unidad_oid` (`unidad_oid`),
+  ADD KEY `tipoIntegrante_oid` (`tipoIntegrante_oid`),
+  ADD KEY `user_oid` (`user_oid`),
+  ADD KEY `estado_oid` (`estado_oid`);
+
+ALTER TABLE `cyt_unidad_integrante_estado`
+  MODIFY `oid` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `cyt_unidad_integrante`
+--
+ALTER TABLE `cyt_unidad_integrante_estado`
+  ADD CONSTRAINT `cyt_unidad_integrante_estado_ibfk_1` FOREIGN KEY (`unidad_oid`) REFERENCES `cyt_unidad` (`oid`),
+  ADD CONSTRAINT `cyt_unidad_integrante_estado_ibfk_4` FOREIGN KEY (`integrante_oid`) REFERENCES `cyt_integrante_unidad` (`oid`),
+  ADD CONSTRAINT `cyt_unidad_integrante_estado_ibfk_2` FOREIGN KEY (`tipoIntegrante_oid`) REFERENCES `cyt_tipo_integrante` (`oid`),
+  ADD CONSTRAINT `cyt_unidad_integrante_estado_ibfk_3` FOREIGN KEY (`user_oid`) REFERENCES `cdt_user` (`cd_user`);
+COMMIT;
+
+INSERT INTO cyt_unidad_integrante_estado (integrante_oid, unidad_oid, tipoIntegrante_oid, categoria_oid, carreraInv_oid, organismo_oid, beca, cargo_oid, dedDoc_oid, facultad_oid, lugarTrabajo_oid, horas, observaciones, fechaDesde, fechaHasta, user_oid, fechaUltModificacion, activo, estudiante, estado_oid)
+SELECT cyt_unidad_integrante.oid, cyt_unidad_integrante.unidad_oid, cyt_unidad_integrante.tipoIntegrante_oid, cyt_unidad_integrante.categoria_oid,
+cyt_unidad_integrante.carreraInv_oid, cyt_unidad_integrante.organismo_oid, cyt_unidad_integrante.beca, cyt_unidad_integrante.cargo_oid,
+cyt_unidad_integrante.dedDoc_oid, cyt_unidad_integrante.facultad_oid, cyt_unidad_integrante.lugarTrabajo_oid, cyt_unidad_integrante.horas, cyt_unidad_integrante.observaciones, cyt_unidad_integrante.fechaDesde, cyt_unidad_integrante.fechaHasta, cyt_unidad_integrante.user_oid, cyt_unidad_integrante.fechaUltModificacion, cyt_unidad_integrante.activo, cyt_unidad_integrante.estudiante, cyt_unidad_integrante.estado_oid
+FROM cyt_unidad_integrante;
+
+#################################################### 07/02/2025 ##########################################################################
+
+ALTER TABLE `cyt_unidad_integrante`
+    ADD COLUMN `categoriasicadi_oid` INT(11) NULL;
+
+##############actualizar sicadis
+UPDATE cyt_unidad_integrante cui
+    JOIN docente d ON SUBSTRING_INDEX(SUBSTRING_INDEX(cui.cuil, '-', -2), '-', 1) = d.nu_documento
+    SET cui.categoriasicadi_oid = d.cd_categoriasicadi;

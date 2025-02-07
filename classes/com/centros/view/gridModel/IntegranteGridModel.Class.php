@@ -8,7 +8,7 @@
  */
 class IntegranteGridModel extends GridModel {
 
-	public function IntegranteGridModel() {
+	public function __construct() {
 
 		parent::__construct();
 		$this->initModel();
@@ -39,6 +39,10 @@ class IntegranteGridModel extends GridModel {
 		$tCategoria = CYTSecureDAOFactory::getCategoriaDAO()->getTableName();
 		$column = GridModelBuilder::buildColumn( "categoria.ds_categoria", CYT_LBL_INTEGRANTE_CATEGORIA, 20, CDT_CMP_GRID_TEXTALIGN_CENTER, "$tCategoria.ds_categoria" );
 		$this->addColumn( $column );
+
+        $tCategoriasicadi = CYTSecureDAOFactory::getCategoriasicadiDAO()->getTableName();
+        $column = GridModelBuilder::buildColumn( "categoriasicadi.ds_categoriasicadi", CYT_LBL_INTEGRANTE_CATEGORIA_SICADI, 20, CDT_CMP_GRID_TEXTALIGN_CENTER, "$tCategoriasicadi.ds_categoriasicadi" );
+        $this->addColumn( $column );
 		
 		$tCarrerainv = CYTSecureDAOFactory::getCarrerainvDAO()->getTableName();
 		$tOrganismo = CYTSecureDAOFactory::getOrganismoDAO()->getTableName();
@@ -72,6 +76,10 @@ class IntegranteGridModel extends GridModel {
 		
 		$column = GridModelBuilder::buildColumn( "activo", CYT_LBL_INTEGRANTE_ACTIVO, 20, CDT_CMP_GRID_TEXTALIGN_CENTER, "activo",new GridBoolValueFormat() );
 		$this->addColumn( $column );
+
+        $tEstado = DAOFactory::getEstadoIntegranteDAO()->getTableName();
+        $column = GridModelBuilder::buildColumn( "estado.ds_estado", CYT_LBL_TIPO_ESTADO, 40, CDT_CMP_GRID_TEXTALIGN_LEFT, "$tEstado.ds_estado" );
+        $this->addColumn( $column );
 		
 		$column = GridModelBuilder::buildColumn( "oid", CYT_LBL_UNIDAD_ARCHIVOS, 60, CDT_CMP_GRID_TEXTALIGN_RIGHT,"",new GridCVValueFormat() ) ;
 		$this->addColumn( $column );
@@ -100,23 +108,66 @@ class IntegranteGridModel extends GridModel {
 	 * @see GridModel::getRowActionsModel( $item );
 	 */
 	public function getRowActionsModel($item) {
-		return $this->getDefaultRowActions($item, "integrante", CYT_LBL_INTEGRANTE, true, true, true, false, 500, 750);
-		/*$actions = new ItemCollection();
-	
-		$action = $this->buildRowAction( "view_integrante", "view_integrante", CDT_CMP_GRID_MSG_VIEW . " ".CPIQ_LBL_INTEGRANTE, CDT_UI_IMG_SEARCH, "view") ;
-		$actions->addItem( $action );
-		
-		$action = $this->buildRowAction( "update_integrante_init", "update_integrante_init", CDT_CMP_GRID_MSG_EDIT . " ".CPIQ_LBL_INTEGRANTE, CDT_UI_IMG_EDIT, "edit") ;
-		$actions->addItem( $action );
-		
-		
-		$action =  $this->buildDeleteAction( $item, "integrante", CYT_LBL_INTEGRANTE, $this->getMsgConfirmDelete( $item ), false ) ;
-		$actions->addItem( $action );
-		
-		
-		
-		return $actions;*/
+		//return $this->getDefaultRowActions($item, "integrante", CYT_LBL_INTEGRANTE, true, true, true, false, 500, 750);
+        $actions = new ItemCollection();
+
+
+        $action = $this->buildRowAction( "update_integrante_init", "update_integrante_init", CYT_LBL_EDITAR , CDT_UI_IMG_EDIT, "edit") ;
+        $actions->addItem( $action );
+
+
+        /*$action =  $this->buildDeleteAction( $item, "integrante", CYT_LBL_INTEGRANTE, $this->getMsgConfirmDelete( $item ), false ) ;
+        $actions->addItem( $action );*/
+
+
+
+
+        $oUser = CdtSecureUtils::getUserLogged();
+
+
+        if (CdtSecureUtils::hasPermission ( $oUser, CYT_FUNCTION_ENVIAR_SOLICITUD )) {
+            $action = $this->buildRowAction("send_solicitud_integrante", "send_solicitud_integrante", CYT_LBL_ENVIAR, CDT_UI_IMG_SEARCH, "view", "delete_items('send_solicitud_integrante')", false, $this->getMsgConfirmSend(CYT_MSG_SOLICITUD_ENVIAR_PREGUNTA));
+            $actions->addItem($action);
+            $action =  $this->buildRowAction( "anular_solicitud_integrante_init", "anular_solicitud_integrante_init", CYT_LBL_INTEGRANTE_ANULAR, CDT_UI_IMG_EDIT, "delete") ;
+            $actions->addItem($action);
+        }
+
+
+        $action = $this->buildRowAction( "view_solicitud_integrante_pdf", "view_solicitud_integrante_pdf", CDT_UI_LBL_EXPORT_PDF, CDT_UI_IMG_SEARCH, "view") ;
+        $action->setBl_targetblank(true);
+        $actions->addItem( $action );
+
+        if (CdtSecureUtils::hasPermission ( $oUser, CYT_FUNCTION_ADMITIR_SOLICITUD )) {
+            $action =  $this->buildRowAction( "admit_solicitud_integrante", "admit_solicitud_integrante", CYT_LBL_ADMITIR, CDT_UI_IMG_SEARCH, "view", "delete_items('admit_solicitud_integrante')", true, $this->getMsgConfirmAdmit()) ;
+            $actions->addItem( $action );
+        }
+
+        if (CdtSecureUtils::hasPermission ( $oUser, CYT_FUNCTION_RECHAZAR_SOLICITUD )) {
+            $action =  $this->buildRowAction( "deny_solicitud_integrante_init", "deny_solicitud_integrante_init", CYT_LBL_RECHAZAR, CDT_UI_IMG_SEARCH, "view") ;
+            $actions->addItem( $action );
+        }
+
+        if (CdtSecureUtils::hasPermission ( $oUser, CYT_FUNCTION_LISTAR_ESTADO )) {
+
+            $action = $this->buildRowAction("list_integrantesEstado", "list_integrantesEstado", CYT_MSG_SOLICITUD_ESTADO_TITLE_LIST, CDT_CMP_GRID_MSG_VIEW, "attach" ) ;
+            $actions->addItem( $action );
+
+        }
+
+
+        return $actions;
 	}
+
+    protected function getMsgConfirmSend( $msg ){
+
+        return CdtFormatUtils::quitarEnters($msg);
+    }
+
+    protected function getMsgConfirmAdmit(  ){
+
+        $msg = CYT_MSG_SOLICITUD_ADMITIR_PREGUNTA;
+        return CdtFormatUtils::quitarEnters($msg);
+    }
 
 
 }

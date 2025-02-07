@@ -22,12 +22,14 @@ class IntegranteDAO extends EntityDAO {
 
 		$fieldsValues["unidad_oid"] = $this->formatIfNull( $entity->getUnidad()->getOid(), 'null' );
 		$fieldsValues["tipoIntegrante_oid"] = $this->formatIfNull( $entity->getTipoIntegrante()->getOid(), 'null' );
+        $fieldsValues["estado_oid"] = $this->formatIfNull( $entity->getEstado()->getOid(), 'null' );
 		$fieldsValues["apellido"] = $this->formatString( $entity->getApellido() );
 		$fieldsValues["nombre"] = $this->formatString( $entity->getNombre() );
 		$fieldsValues["cuil"] = $this->formatString( $entity->getCuil() );
 		$fieldsValues["mail"] = $this->formatString( $entity->getMail() );
 		$fieldsValues["telefono"] = $this->formatString( $entity->getTelefono() );
 		$fieldsValues["categoria_oid"] = $this->formatIfNull( $entity->getCategoria()->getOid(), 'null' );
+        $fieldsValues["categoriasicadi_oid"] = $this->formatIfNull( $entity->getCategoriasicadi()->getOid(), 'null' );
 		$fieldsValues["carrerainv_oid"] = $this->formatIfNull( $entity->getCarrerainv()->getOid(), 'null' );
 		$fieldsValues["organismo_oid"] = $this->formatIfNull( $entity->getOrganismo()->getOid(), 'null' );
 		$fieldsValues["beca"] = $this->formatString( $entity->getBeca() );
@@ -40,13 +42,13 @@ class IntegranteDAO extends EntityDAO {
 		$fieldsValues["horas"] = $this->formatIfNull( $entity->getHoras(), 'null' );
 		$fieldsValues["activo"] = $this->formatIfNull( $entity->getActivo(), 'null' );
 		$fieldsValues["estudiante"] = $this->formatIfNull( $entity->getEstudiante(), 'null' );
-		$fieldsValues["observaciones"] = $this->formatIfNull( $entity->getObservaciones(), 'null' );
+        $fieldsValues["observaciones"] = $this->formatString( $entity->getObservaciones() );
 		
 		$fieldsValues["fechaDesde"] = $this->formatDate( $entity->getFechaDesde() );
 		$fieldsValues["fechaHasta"] = $this->formatDate( $entity->getFechaHasta() );
 		
 		$fieldsValues["fechaUltModificacion"] = $this->formatString($entity->getFechaUltModificacion());
-		$fieldsValues["user_oid"] = $this->formatIfNull( $entity->getUser()->getOid(), 'null' );
+        $fieldsValues["user_oid"] = $this->formatIfNull( $entity->getUser()->getCd_user(), 'null' );
 
 		return $fieldsValues;
 	}
@@ -56,12 +58,14 @@ class IntegranteDAO extends EntityDAO {
 		$fieldsValues = array();
 
 		$fieldsValues["tipoIntegrante_oid"] = $this->formatIfNull( $entity->getTipoIntegrante()->getOid(), 'null' );
+        $fieldsValues["estado_oid"] = $this->formatIfNull( $entity->getEstado()->getOid(), 'null' );
 		$fieldsValues["apellido"] = $this->formatString( $entity->getApellido() );
 		$fieldsValues["nombre"] = $this->formatString( $entity->getNombre() );
 		$fieldsValues["cuil"] = $this->formatString( $entity->getCuil() );
 		$fieldsValues["mail"] = $this->formatString( $entity->getMail() );
 		$fieldsValues["telefono"] = $this->formatString( $entity->getTelefono() );
 		$fieldsValues["categoria_oid"] = $this->formatIfNull( $entity->getCategoria()->getOid(), 'null' );
+        $fieldsValues["categoriasicadi_oid"] = $this->formatIfNull( $entity->getCategoriasicadi()->getOid(), 'null' );
 		$fieldsValues["carrerainv_oid"] = $this->formatIfNull( $entity->getCarrerainv()->getOid(), 'null' );
 		$fieldsValues["organismo_oid"] = $this->formatIfNull( $entity->getOrganismo()->getOid(), 'null' );
 		$fieldsValues["beca"] = $this->formatString( $entity->getBeca() );
@@ -75,10 +79,10 @@ class IntegranteDAO extends EntityDAO {
 		
 		$fieldsValues["activo"] = $this->formatIfNull( $entity->getActivo(), 'null' );
 		$fieldsValues["estudiante"] = $this->formatIfNull( $entity->getEstudiante(), 'null' );
-		$fieldsValues["observaciones"] = $this->formatIfNull( $entity->getObservaciones(), 'null' );
+        $fieldsValues["observaciones"] = $this->formatString( $entity->getObservaciones() );
 		
 		$fieldsValues["fechaUltModificacion"] = $this->formatString($entity->getFechaUltModificacion());
-		$fieldsValues["user_oid"] = $this->formatIfNull( $entity->getUser()->getOid(), 'null' );
+        $fieldsValues["user_oid"] = $this->formatIfNull( $entity->getUser()->getCd_user(), 'null' );
 		
 		
 
@@ -92,11 +96,14 @@ class IntegranteDAO extends EntityDAO {
 		$tTipoIntegrante = DAOFactory::getTipoIntegranteDAO()->getTableName();
 		$tUnidad = DAOFactory::getUnidadDAO()->getTableName();
 		$tCategoria = CYTSecureDAOFactory::getCategoriaDAO()->getTableName();
+        $tCategoriasicadi = CYTSecureDAOFactory::getCategoriasicadiDAO()->getTableName();
 		$tCarrerainv = CYTSecureDAOFactory::getCarrerainvDAO()->getTableName();
 		$tOrganismo = CYTSecureDAOFactory::getOrganismoDAO()->getTableName();
 		$tCargo = CYTSecureDAOFactory::getCargoDAO()->getTableName();
 		$tDeddoc = CYTSecureDAOFactory::getDeddocDAO()->getTableName();
 		$tFacultad = CYTSecureDAOFactory::getFacultadDAO()->getTableName();
+        $tEstado = DAOFactory::getEstadoIntegranteDAO()->getTableName();
+        $tIntegranteEstado = DAOFactory::getIntegranteEstadoDAO()->getTableName();
 		//$tLugarTrabajo = CYTSecureDAOFactory::getLugarTrabajoDAO()->getTableName();
 		
 		$tUser = CYT_TABLE_CDT_USER;
@@ -106,11 +113,14 @@ class IntegranteDAO extends EntityDAO {
         $sql .= " LEFT JOIN " . $tTipoIntegrante . " ON($tIntegrante.tipoIntegrante_oid = $tTipoIntegrante.oid)";
         $sql .= " LEFT JOIN " . $tUnidad . " ON($tIntegrante.unidad_oid = $tUnidad.oid)";
         $sql .= " LEFT JOIN " . $tCategoria . " ON($tIntegrante.categoria_oid = $tCategoria.cd_categoria)";
+        $sql .= " LEFT JOIN " . $tCategoriasicadi . " ON($tIntegrante.categoriasicadi_oid = $tCategoriasicadi.cd_categoriasicadi)";
         $sql .= " LEFT JOIN " . $tCarrerainv . " ON($tIntegrante.carrerainv_oid = $tCarrerainv.cd_carrerainv)";
         $sql .= " LEFT JOIN " . $tOrganismo . " ON($tIntegrante.organismo_oid = $tOrganismo.cd_organismo)";
         $sql .= " LEFT JOIN " . $tCargo . " ON($tIntegrante.cargo_oid = $tCargo.cd_cargo)";
         $sql .= " LEFT JOIN " . $tDeddoc . " ON($tIntegrante.deddoc_oid = $tDeddoc.cd_deddoc)";
         $sql .= " LEFT JOIN " . $tFacultad . " ON($tIntegrante.facultad_oid = $tFacultad.cd_facultad)";
+        $sql .= " INNER JOIN " . $tIntegranteEstado . " ON($tIntegranteEstado.integrante_oid = $tIntegrante.oid)";
+        $sql .= " LEFT JOIN " . $tEstado . " ON($tIntegranteEstado.estado_oid = $tEstado.cd_estado)";
         //$sql .= " LEFT JOIN " . $tLugarTrabajo . " LugarTrabajo ON($tIntegrante.lugarTrabajo_oid = LugarTrabajo.cd_unidad)";
         
         $sql .= " LEFT JOIN " . $tUser . " ON($tIntegrante.user_oid = $tUser.oid)";
@@ -124,6 +134,7 @@ class IntegranteDAO extends EntityDAO {
 		$tTipoIntegrante = DAOFactory::getTipoIntegranteDAO()->getTableName();
 		$tUnidad = DAOFactory::getUnidadDAO()->getTableName();
 		$tCategoria = CYTSecureDAOFactory::getCategoriaDAO()->getTableName();
+        $tCategoriasicadi = CYTSecureDAOFactory::getCategoriasicadiDAO()->getTableName();
 		$tCarrerainv = CYTSecureDAOFactory::getCarrerainvDAO()->getTableName();
 		$tOrganismo = CYTSecureDAOFactory::getOrganismoDAO()->getTableName();
 		$tCargo = CYTSecureDAOFactory::getCargoDAO()->getTableName();
@@ -143,6 +154,9 @@ class IntegranteDAO extends EntityDAO {
         
         $fields[] = "$tCategoria.cd_categoria as " . $tCategoria . "_oid ";
         $fields[] = "$tCategoria.ds_categoria as " . $tCategoria . "_ds_categoria ";
+
+        $fields[] = "$tCategoriasicadi.cd_categoriasicadi as " . $tCategoriasicadi . "_oid ";
+        $fields[] = "$tCategoriasicadi.ds_categoriasicadi as " . $tCategoriasicadi . "_ds_categoriasicadi ";
         
         $fields[] = "$tCarrerainv.cd_carrerainv as " . $tCarrerainv . "_oid ";
         $fields[] = "$tCarrerainv.ds_carrerainv as " . $tCarrerainv . "_ds_carrerainv ";
@@ -158,7 +172,18 @@ class IntegranteDAO extends EntityDAO {
         
         $fields[] = "$tFacultad.cd_facultad as " . $tFacultad . "_oid ";
         $fields[] = "$tFacultad.ds_facultad as " . $tFacultad . "_ds_facultad ";
-        
+
+
+        $tEstado = DAOFactory::getEstadoIntegranteDAO()->getTableName();
+        $fields[] = "$tEstado.cd_estado as " . $tEstado . "_oid ";
+        $fields[] = "$tEstado.ds_estado as " . $tEstado . "_ds_estado ";
+
+        $tIntegranteEstado = DAOFactory::getIntegranteEstadoDAO()->getTableName();
+        $fields[] = "$tIntegranteEstado.oid as " . $tIntegranteEstado . "_oid ";
+        $fields[] = "$tIntegranteEstado.fechaDesde as " . $tIntegranteEstado . "_fechaDesde ";
+        $fields[] = "$tIntegranteEstado.fechaHasta as " . $tIntegranteEstado . "_fechaHasta ";
+
+
         /*$fields[] = "$tLugarTrabajo.cd_unidad as " . $tLugarTrabajo . "_oid ";
         $fields[] = "$tLugarTrabajo.ds_unidad as " . $tLugarTrabajo . "_ds_unidad ";
         $fields[] = "$tLugarTrabajo.ds_sigla as " . $tLugarTrabajo . "_ds_sigla ";*/

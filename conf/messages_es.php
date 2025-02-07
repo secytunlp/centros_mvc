@@ -108,6 +108,15 @@ define("CYT_MSG_DIRECTOR_ERROR_DEDICACION",  "No tiene Dedicación suficiente pa
 define("CYT_MSG_CD_INTEGRANTE_MIN",  "El nro. de miembros del Consejo Directivo debe ser al menos ", true );
 define("CYT_MSG_CD_INTEGRANTE_MIN_CAT",  "El nro. de miembros del Consejo Directivo con categoría I, II o III debe ser al menos ", true );
 
+define('CYT_MSG_INTEGRANTE_ENVIAR_PROHIBIDO', 'Sólo se pueden enviar los investigadores con estado ALTA CREADA, CAMBIO CREADO', true);
+
+define('CYT_MSG_INTEGRANTE_CV_PROBLEMA', 'Hubo un error al subir el Curriculum, intente nuevamente, si el problema persiste envíenos un mail a unidadesdeinv@presi.unlp.edu.ar', true);
+
+define('CYT_MSG_INTEGRANTE_VER_PROHIBIDO', 'Sólo se pueden ver los PDFs de los investigadores con estado ALTA CREADA, ALTA RECIBIDA, CAMBIO CREADO ó CAMBIO RECIBIDO', true);
+
+define('CYT_MSG_INTEGRANTE_ADMITIR_PROHIBIDO', 'Sólo se pueden admitir los investigadores con estado ALTA RECIBIDA, CAMBIO RECIBIDO', true);
+define('CYT_MSG_INTEGRANTE_RECHAZAR_PROHIBIDO', 'Sólo se pueden rechazar los investigadores con estado ALTA RECIBIDA, CAMBIO RECIBIDO', true);
+
 define('CYT_MSG_DIRECTOR_ERROR_CANTIDAD', 'Ya existe un Director', true);
 define('CYT_MSG_SUBDIRECTOR_ERROR_CANTIDAD', 'Ya existe un Subdirector', true);
 
@@ -117,4 +126,11 @@ define('CYT_MSG_UNIDAD_TIPO_ESTADO_CAMBIAR', 'Cambiar-estado', true);
 
 define('CYT_MSG_UNIDAD_TIPO_ESTADO_UNIDAD_REQUIRED', CYT_LBL_UNIDAD. ' es requerido', true);
 define('CYT_MSG_UNIDAD_TIPO_ESTADO_TIPO_ESTADO_REQUIRED', CYT_LBL_TIPO_ESTADO. ' es requerido', true);
+
+
+//PDF
+define('CYT_MSG_PROYECTO_PDF_TITLE', 'VISUALIZAR UNIDAD', true);
+define('CYT_MSG_PROYECTO_PDF_HEADER_TITLE', 'GESTION DE UNIDADES', true);
+define('CYT_MSG_PROYECTO_PDF_PAGINA', 'Página', true);
+define('CYT_MSG_PROYECTO_PDF_PAGINA_DE', 'de', true);
 ?>

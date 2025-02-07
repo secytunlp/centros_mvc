@@ -60,6 +60,10 @@ class CMPIntegranteForm extends CMPForm{
 		$fieldCategoria = FieldBuilder::buildFieldSelect (CYT_LBL_INTEGRANTE_CATEGORIA, "categoria.oid", CYTSecureUtils::getCategoriasItems(CYT_CATEGORIA_MOSTRADAS), "", null, null, "--seleccionar--", "categoria_oid" );
 		$fieldCategoria->getInput()->setIsEditable(false);
 		$fieldset->addField( $fieldCategoria );
+
+		$fieldCategoriasicadi = FieldBuilder::buildFieldSelect (CYT_LBL_INTEGRANTE_CATEGORIA_SICADI, "categoriasicadi.oid", CYTSecureUtils::getCategoriassicadiItems(), "", null, null, "--seleccionar--", "categoriasicadi_oid" );
+		$fieldCategoriasicadi->getInput()->setIsEditable(false);
+		$fieldset->addField( $fieldCategoriasicadi );
 		
 		$fieldCarrerainv = FieldBuilder::buildFieldSelect (CYT_LBL_INTEGRANTE_CARRERAINV, "carrerainv.oid", CYTSecureUtils::getCarrerainvsItems(CYT_CARRERAINV_MOSTRADAS), "", null, null, "--seleccionar--", "carrerainv_oid" );
 		$fieldset->addField( $fieldCarrerainv );
@@ -104,6 +108,7 @@ class CMPIntegranteForm extends CMPForm{
 		$this->addFieldset($fieldset);
 
 		$this->addHidden( FieldBuilder::buildInputHidden ( "categoria.oid", "") );
+		$this->addHidden( FieldBuilder::buildInputHidden ( "categoriasicadi.oid", "") );
 		$this->addHidden( FieldBuilder::buildInputHidden ( "unidad.oid", "") );
 		$this->addHidden( FieldBuilder::buildInputHidden ( "oid", "") );
 		$this->addHidden( FieldBuilder::buildInputHidden ( "curriculum", "") );

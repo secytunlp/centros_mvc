@@ -16,7 +16,7 @@ class UpdateIntegranteInitAction extends UpdateEntityInitAction {
 
 		$entity = parent::getEntity();
 
-		$oCriteria = new CdtSearchCriteria();
+		/*$oCriteria = new CdtSearchCriteria();
 		$oCriteria->addFilter('unidad_oid', $entity->getUnidad()->getOid(), '=');
 		$oCriteria->addNull('fechaHasta');
 		$managerUnidadTipoEstado =  ManagerFactory::getUnidadTipoEstadoManager();
@@ -24,7 +24,7 @@ class UpdateIntegranteInitAction extends UpdateEntityInitAction {
 		if (($oUnidadTipoEstado->getTipoEstado()->getOid()!=CYT_ESTADO_UNIDAD_CREADA)) {
 			
 			throw new GenericException( CYT_MSG_UNIDAD_MODIFICAR_PROHIBIDO);
-		}
+		}*/
 			
 		
 		

@@ -10,8 +10,14 @@
 class UpdateIntegranteAction extends UpdateEntityAction{
 
 	protected function getEntity() {
-	
-		$entity =  parent::getEntity();
+
+
+
+
+        $entity = parent::getEntity();
+
+
+		//$entity =  parent::getEntity();
 		
 		$error = '';
 		$dir = CYT_PATH_PDFS.'/';
@@ -65,8 +71,25 @@ class UpdateIntegranteAction extends UpdateEntityAction{
 		if ($error) {
 			throw new GenericException( $error );
 		}
-	
-		
+
+        $oCriteria = new CdtSearchCriteria();
+        $oCriteria->addFilter('oid', $entity->getOid(), '=');
+        $oCriteria->addNull('cyt_unidad_integrante_estado.fechaHasta');
+        $manager = $this->getEntityManager();
+        $entity2 = $manager->getEntity($oCriteria);
+
+        $entity->setEstado($entity2->getEstado());
+
+        $oUser = CdtSecureUtils::getUserLogged();
+
+        if (CdtSecureUtils::hasPermission ( $oUser, CYT_FUNCTION_ENVIAR_SOLICITUD )) {
+
+            if ($entity->getEstado()->getOid() == CYT_ESTADO_INTEGRANTE_ADMITIDO){
+                $oEstado = new Estado();
+                $oEstado->setOid(CYT_ESTADO_INTEGRANTE_CAMBIO_CREADO);
+                $entity->setEstado($oEstado);
+            }
+        }
 		
 		
 	

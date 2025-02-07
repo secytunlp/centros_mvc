@@ -26,6 +26,8 @@ class Integrante extends Entity{
 	private $telefono;
 	
 	private $categoria;
+
+    private $categoriasicadi;
 	  
 	private $carreraInv;  
 	
@@ -57,6 +59,24 @@ class Integrante extends Entity{
 	private $activo;
 	
 	private $estudiante;
+
+    /**
+     * @return mixed
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
+     * @param mixed $estado
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+    }
+
+    private $estado;
 	
 	public function __construct(){
 		 
@@ -75,6 +95,8 @@ class Integrante extends Entity{
 		$this->telefono = "";
 		
 		$this->categoria = new Categoria();
+
+        $this->categoriasicdi = new Categoriasicadi();
 		  
 		$this->carreraInv = new CarreraInv();  
 		
@@ -113,7 +135,10 @@ class Integrante extends Entity{
 
 
 
-	
+    public function __toString(){
+
+        return $this->getUnidad()->getSigla().' - '.$this->getApellido();
+    }
 
 	
 
@@ -146,6 +171,16 @@ class Integrante extends Entity{
 	{
 	    $this->categoria = $categoria;
 	}
+
+    public function getCategoriasicadi()
+    {
+        return $this->categoriasicadi;
+    }
+
+    public function setCategoriasicadi($categoriasicadi)
+    {
+        $this->categoriasicadi = $categoriasicadi;
+    }
 
 	public function getCarreraInv()
 	{

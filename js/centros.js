@@ -37,8 +37,9 @@ function autocomplete_callback_apellido( oid ){
 	      		$("#cuil").val(data["cuil"]);	
 	      		$("#mail").val(data["mail"]);	
 	      		$("#telefono").val(data["telefono"]);	
-	      		$("#categoria_oid").val(data["categoria_oid"]);		
-	      		$("#carrerainv_oid").val(data["carrerainv_oid"]);		
+	      		$("#categoria_oid").val(data["categoria_oid"]);
+				$("#categoriasicadi_oid").val(data["categoriasicadi_oid"]);
+				$("#carrerainv_oid").val(data["carrerainv_oid"]);
 	      		$("#organismo_oid").val(data["organismo_oid"]);		
 	      		$("#cargo_oid").val(data["cargo_oid"]);		
 	      		$("#deddoc_oid").val(data["deddoc_oid"]);		
@@ -48,6 +49,8 @@ function autocomplete_callback_apellido( oid ){
 	      		$("#beca").val(data["beca"]);	
 	      		var categoria = document.getElementById("categoria.oid");
 	      		categoria.value = data["categoria_oid"];
+				var categoriasicadi = document.getElementById("categoriasicadi.oid");
+				categoriasicadi.value = data["categoriasicadi_oid"];
 	      		
 	      	} 	
 	      	 $("#iconoLoading").remove();

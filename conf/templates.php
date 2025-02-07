@@ -21,5 +21,7 @@ define('CYT_TEMPLATE_UNIDAD_MAIL_ENVIAR', CYT_PATH . 'view/templates/unidades/ma
 
 define('CYT_TEMPLATE_INTEGRANTE_VIEW', CYT_PATH . 'view/templates/integrantes/view.html');
 
+define('CYT_TEMPLATE_SOLICITUD_MAIL_ENVIAR', CYT_PATH . 'view/templates/integrantes/mail_solicitud.html');
+
 
 ?>

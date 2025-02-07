@@ -37,8 +37,14 @@ class ManagerFactory{
 	public static function getTipoIntegranteManager(){
 		return new TipoIntegranteManager();
 	}
-	
-	
+
+    public static function getEstadoIntegranteManager(){
+        return new EstadoIntegranteManager();
+    }
+
+    public static function getIntegranteEstadoManager(){
+        return new IntegranteEstadoManager();
+    }
 	
 }
 

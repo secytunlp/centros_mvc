@@ -63,9 +63,13 @@ class CYTUtils {
 		return self::getFilterOptionItems( ManagerFactory::getTipoIntegranteManager(), "oid", "nombre","","","","orden",$oCriteria);
 
 	}
-	
-	
-	
+
+
+    public static function getEstadoIntegranteItems() {
+
+        return self::getFilterOptionItems( ManagerFactory::getEstadoIntegranteManager(), "oid", "ds_estado");
+
+    }
 	
 	
 }

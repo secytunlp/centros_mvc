@@ -20,7 +20,7 @@ define("CDT_DEBUG_LOG", true);
 define("CDT_ERROR_LOG", true);
 define("CDT_MESSAGE_LOG", true);
 
-
+define('CYT_PATH_PDFS_INTEGRANTES', 'integrantes');
 
 define('CYT_ESTADO_UNIDAD_CREADA', 1);
 define('CYT_ESTADO_UNIDAD_ENVIADA', 2);
@@ -33,5 +33,12 @@ define('CYT_TIPO_INTEGRANTE_SUBDIRECTOR', '5,9');
 define('CYT_FECHA_CIERRE', '2016-10-30');
 
 define('CYT_CD_GROUPS_MOSTRAR', '2,16,17');
+
+define('CYT_FUNCTION_ENVIAR_SOLICITUD', '78');
+define('CYT_FUNCTION_LISTAR_ESTADO', '52');
+define('CYT_FUNCTION_ADMITIR_SOLICITUD', '69');
+define('CYT_FUNCTION_RECHAZAR_SOLICITUD', '70');
+
+define('CYT_YEAR', 2022);
 
 ?>

@@ -221,7 +221,7 @@ class CMPIntegranteFilter extends CMPFilter{
             //$criteria->addFilter("user_oid", $oUser->getCd_user(), "=");
         }
 		
-		$criteria->addNull('fechaHasta');
+		$criteria->addNull('cyt_unidad_integrante_estado.fechaHasta');
 		
 		
 	}

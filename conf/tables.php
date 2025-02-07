@@ -17,6 +17,8 @@ define('CYT_TABLE_UNIDAD', 'cyt_unidad');
 define('CYT_TABLE_UNIDAD_FACULTAD', 'cyt_unidad_facultad');
 define('CYT_TABLE_UNIDAD_INTEGRANTE', 'cyt_unidad_integrante');
 define('CYT_TABLE_TIPO_INTEGRANTE', 'cyt_tipo_integrante');
+define('CYT_TABLE_INTEGRANTE_ESTADO', 'cyt_unidad_integrante_estado');
+define('CYT_TABLE_ESTADOINTEGRANTE', 'estadointegrante');
 
 
 //define('CMP_TABLE_CMPFILTER', 'cdt_my_filter');

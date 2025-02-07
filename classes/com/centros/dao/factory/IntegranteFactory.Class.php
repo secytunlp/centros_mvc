@@ -24,6 +24,10 @@ class IntegranteFactory extends CdtGenericFactory {
         $factory = new CategoriaFactory();
         $factory->setAlias( CYT_TABLE_CATEGORIA . "_" );
         $integrante->setCategoria( $factory->build($next) );
+
+        $factory = new CategoriasicadiFactory();
+        $factory->setAlias( CYT_TABLE_CATEGORIA_SICADI . "_" );
+        $integrante->setCategoriasicadi( $factory->build($next) );
         
         $factory = new CarrerainvFactory();
         $factory->setAlias( CYT_TABLE_CARRERAINV . "_" );
@@ -44,6 +48,10 @@ class IntegranteFactory extends CdtGenericFactory {
         $factory = new FacultadFactory();
         $factory->setAlias( CYT_TABLE_FACULTAD . "_" );
         $integrante->setFacultad( $factory->build($next) );
+
+        $factory = new EstadoFactory();
+        $factory->setAlias( CYT_TABLE_ESTADOINTEGRANTE . "_" );
+        $integrante->setEstado( $factory->build($next) );
         
         /*$factory = new LugarTrabajoFactory();
         $factory->setAlias( "LugarTrabajo_" );

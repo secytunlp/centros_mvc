@@ -65,9 +65,11 @@ class AddIntegranteAction extends AddEntityAction{
 		if ($error) {
 			throw new GenericException( $error );
 		}
-	
-		
-		
+
+
+        $oEstado = new Estado();
+        $oEstado->setOid(CYT_ESTADO_INTEGRANTE_ALTA_CREADA);
+        $entity->setEstado($oEstado);
 		
 	
 		return $entity;

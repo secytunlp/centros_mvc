@@ -37,8 +37,14 @@ class DAOFactory{
 	public static function getIntegranteDAO(){
 		return new IntegranteDAO();
 	}
-	
-	
+
+	public static function getIntegranteEstadoDAO(){
+		return new IntegranteEstadoDAO();
+	}
+
+	public static function getEstadoIntegranteDAO(){
+		return new EstadoIntegranteDAO();
+	}
 	
 }
 ?>

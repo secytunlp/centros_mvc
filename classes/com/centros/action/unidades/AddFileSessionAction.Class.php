@@ -52,6 +52,7 @@ class AddFileSessionAction extends CdtAction{
 						$unidadManager = ManagerFactory::getUnidadManager();
 						$oUnidad = $unidadManager->getObjectByCode($sigla_apellido[0]);
 						$ds_sigla= $oUnidad->getSigla();
+
 						$sigla .= '_'.CYTSecureUtils::stripAccents(stripslashes(str_replace("'","_",$sigla_apellido[1])));
 					}
 					$dir .= $ds_sigla.'/';
